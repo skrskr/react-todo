@@ -1,36 +1,21 @@
 import { useState } from 'react'
+import { NewTodoForm } from './NewTodoForm'
 
 function App() {
   // Every time state changed component will be render again
-  const [newItem, setNewItem] = useState("")
+
   const [todos, setTodos] = useState([])
 
   // will enter infite loop 
   // every time value of state change component will render again
   // setNewItem("fffffff")
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    if (newItem == "") return;
-    // will keep only last value added 
-    // always start from empty array on useState
-    // setTodos([...todos, {
-    //   id: crypto.randomUUID(),
-    //   title: newItem,
-    //   completed: false
-    // }])
-
-    // To save current todos and append to it
-    // we use arrow function with current value
+  function addTodo(newItem) {
     setTodos((currentTodos) => [...currentTodos, {
       id: crypto.randomUUID(),
       title: newItem,
       completed: false
     }])
-
-    // cleant input item
-    setNewItem("")
   }
 
   function toggleTodo(id, checked) {
@@ -52,15 +37,7 @@ function App() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="new-item-form">
-        <div className="form-row">
-          <label htmlFor="item">New Item</label>
-          <input value={newItem}
-            onChange={e => setNewItem(e.target.value)}
-            type="text" id='item' />
-        </div>
-        <button className='btn'>Add</button>
-      </form>
+      <NewTodoForm addTodo={addTodo} />
       <h1 className='header'>Todo List</h1>
       <ul className='list'>
         {todos.length === 0 && " No Todos"}
